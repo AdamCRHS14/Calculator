@@ -26,9 +26,9 @@ public class CalcGui {
     private JPanel calcPane;
 
 
-    public CalcGui() {
-
-
+    private CalcGui() {
+    // Number Buttons
+        sevenBtn.addActionListener(new Click(sevenBtn.getText()));
         eightBtn.addActionListener(new Click(eightBtn.getText()));
         nineBtn.addActionListener(new Click(nineBtn.getText()));
         fourBtn.addActionListener(new Click(fourBtn.getText()));
@@ -39,20 +39,81 @@ public class CalcGui {
         threeBtn.addActionListener(new Click(threeBtn.getText()));
         zeroBtn.addActionListener(new Click(zeroBtn.getText()));
 
+    // Operator buttons
+        minusBtn.addActionListener(new OperationBtn(minusBtn.getText()));
+        plusBtn.addActionListener(new OperationBtn(plusBtn.getText()));
+        multiplyBtn.addActionListener(new OperationBtn("*"));
+        divideBtn.addActionListener(new OperationBtn(divideBtn.getText()));
+
+    // Extra buttons
+        clearBtn.addActionListener(new ClearBtn());
     }
+
+// Action listener for Numbers
 
     private class Click implements ActionListener{
         private String value;
-        private String results;
 
         public Click(String thing){
             this.value = thing;
         }
         @Override
         public void actionPerformed(ActionEvent e){
-            display.setText(value);
+            if (display.getText().equals("0")){
+                display.setText(value);
+            } else {display.setText(display.getText() + value);}
+
         }
     }
+
+// Action listener for Operation
+
+    private class OperationBtn implements ActionListener{
+        private String operator;
+        private String results;
+
+        public OperationBtn(String thing){
+            this.operator  = thing;
+        }
+        @Override
+        public void actionPerformed(ActionEvent e){
+            results = display.getText() + operator;
+            display.setText(results);
+        }
+    }
+
+// Action listener for
+
+    private class ClearBtn implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e){
+            display.setText("0");
+        }
+    }
+
+
+
+
+//    private class signBtn implements ActionListener{
+//        private String value = display.getText();
+//        private int number;
+//
+//        if(JSType.isNumber(value)){
+//           if(Integer.parseInt(value) < 0){
+//               number = Integer.parseInt(value) + (2*Integer.parseInt(value));
+//           } else {
+//               number = Integer.parseInt(value) - (2*Integer.parseInt(value));
+//           }
+//           display.setText(number.toString());
+//        }
+//
+//        @Override
+//        public void actionPerformed(ActionEvent e){
+//            display.setText("0");
+//        }
+//    }
+
+
 
     public static void main(String[] args) {
         JFrame frame = new JFrame("Calculator");
